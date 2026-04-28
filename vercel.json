@@ -3,11 +3,19 @@
         "frontend": {
             "entrypoint": "frontend",
             "routePrefix": "/",
-            "framework": "create-react-app"
+            "framework": "create-react-app",
+            "env": {
+                "REACT_APP_API_URL": true
+            }
         },
         "backend": {
             "entrypoint": "backend",
-            "routePrefix": "/_/backend"
+            "routePrefix": "/_/backend",
+            "env": {
+                "GROQ_API_KEY": true,
+                "MONGO_URI": true,
+                "PORT": true
+            }
         }
     }
 }
