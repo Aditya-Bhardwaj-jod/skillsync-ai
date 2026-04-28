@@ -1,5 +1,6 @@
 const pdfParse = require("pdf-parse");
 const Groq = require("groq-sdk");
+const ResumeAnalysis = require("../models/ResumeAnalysis");
 
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
@@ -41,6 +42,18 @@ const analyzeResume = async(req, res) => {
         const aiResponse = response.choices[0].message.content.trim();
         const cleanResponse = aiResponse.replace(/```json|```/g, "").trim();
         const result = JSON.parse(cleanResponse);
+
+        // Save to MongoDB
+        const analysis = new ResumeAnalysis({
+            resumeText,
+            jobRole,
+            matchScore: result.match_score,
+            skillsFound: result.skills_found,
+            missingSkills: result.missing_skills,
+            suggestions: result.suggestions,
+        });
+        await analysis.save();
+        console.log("Analysis saved to MongoDB ✅");
 
         res.status(200).json(result);
     } catch (error) {
