@@ -11,14 +11,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-const analysisRoutes = require("./routes/analysisRoutes");
-app.use("/api", analysisRoutes);
-
-// Test route
 app.get("/", (req, res) => {
     res.send("SkillSync AI Backend chal raha hai 🚀");
 });
+
+try {
+    const analysisRoutes = require("./routes/analysisRoutes");
+    app.use("/api", analysisRoutes);
+} catch (err) {
+    console.error("Routes error:", err.message);
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
