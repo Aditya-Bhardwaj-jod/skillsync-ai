@@ -52,71 +52,42 @@ SkillSync AI is a full-stack web application that analyzes your resume and match
 | Deployment | Vercel (Frontend), Render (Backend) |
 
 ---
-
 ## 🏗 Architecture
-┌─────────────────────────────────────┐
-│           CLIENT BROWSER            │
-│      React SPA (Vercel)             │
-└──────────────┬──────────────────────┘
-│  REST API calls (Axios)
-▼
-┌─────────────────────────────────────┐
-│         EXPRESS BACKEND             │
-│      Node.js / Express (Render)     │
-│   ┌─────────────┐ ┌──────────────┐  │
-│   │/upload-resume│ │   /analyze   │  │
-│   └─────────────┘ └──────┬───────┘  │
-│                          │          │
-└──────────────────────────┼──────────┘
-│
-▼
-┌─────────────────────────────────────┐
-│           GROQ AI API               │
-│      Llama 3.3 70B Model            │
-└──────────────┬──────────────────────┘
-│
-▼
-┌─────────────────────────────────────┐
-│           MONGODB ATLAS             │
-│    Collection: resumeanalyses       │
-└─────────────────────────────────────┘
 
-
----
+```mermaid
+graph TD
+    A[👤 User Browser - React SPA] -->|REST API Axios| B[⚙️ Express Backend - Render]
+    B -->|Upload PDF| C[📄 Multer + pdf-parse]
+    C -->|Extracted Text| B
+    B -->|AI Analysis| D[🤖 Groq AI - Llama 3.3]
+    D -->|JSON Result| B
+    B -->|Save Result| E[(🗄️ MongoDB Atlas)]
+    B -->|Response| A
+```
 
 ## 📁 Project Structure
-skillsync-ai/
-│
-├── backend/
-│   ├── config/
-│   │   └── db.js                 # MongoDB connection
-│   ├── controllers/
-│   │   └── analysisController.js # PDF parsing + AI analysis
-│   ├── middleware/
-│   │   └── upload.js             # Multer PDF upload config
-│   ├── models/
-│   │   └── ResumeAnalysis.js     # Mongoose schema
-│   ├── routes/
-│   │   └── analysisRoutes.js     # API routes
-│   ├── .env                      # Environment variables
-│   ├── package.json
-│   └── server.js                 # Entry point
-│
-├── frontend/
-│   └── src/
-│       ├── components/
-│       │   └── Loader.jsx        # Loading spinner
-│       ├── pages/
-│       │   ├── Home.jsx          # Upload page
-│       │   └── Result.jsx        # Results page
-│       ├── services/
-│       │   └── api.js            # Axios API calls
-│       ├── App.jsx
-│       └── index.js
-│
-└── README.md
----
 
+```mermaid
+graph LR
+    A[skillsync-ai] --> B[backend]
+    A --> C[frontend]
+    A --> D[README.md]
+    
+    B --> B1[config/db.js]
+    B --> B2[controllers/analysisController.js]
+    B --> B3[middleware/upload.js]
+    B --> B4[models/ResumeAnalysis.js]
+    B --> B5[routes/analysisRoutes.js]
+    B --> B6[server.js]
+    B --> B7[.env]
+    
+    C --> C1[src]
+    C1 --> C2[components/Loader.jsx]
+    C1 --> C3[pages/Home.jsx]
+    C1 --> C4[pages/Result.jsx]
+    C1 --> C5[services/api.js]
+    C1 --> C6[App.jsx]
+```
 ## 📡 API Reference
 
 ### Upload Resume
