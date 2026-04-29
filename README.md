@@ -164,7 +164,7 @@ npm start
 | Service | Platform | URL |
 |---------|----------|-----|
 | Frontend | Vercel | https://skillsync-ai-two.vercel.app |
-| Backend | Render | https://skillsync-ai-xmx5.onrender.com |
+| Backend | Render | https:xxxxxx.onrender.com |
 | Database | MongoDB Atlas | Cloud hosted |
 
 ---
